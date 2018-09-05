@@ -46,6 +46,8 @@ if dein#load_state('~/.vim/dein')
   call dein#add('scrooloose/syntastic')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('kien/ctrlp.vim')
+  call dein#add('majutsushi/tagbar')
+  call dein#add('valloric/youcompleteme')
 
   " Required:
   call dein#end()
@@ -87,22 +89,26 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " How can I map a specific key or shortcut to open NERDTree?
-map <C-n> :NERDTreeToggle<CR>
+map <F7> :NERDTreeToggle<CR>
 
 " set SignColumn color
-hi SignColumn guibg=#0D3C48
+hi SignColumn guibg=#073642
 
 " set custom color for Syntastic
-hi SyntasticErrorSign guifg=Red guibg=#0D3C48
-hi SyntasticWarningSign guifg=Yellow guibg=#0D3C48
-hi SyntasticStyleErrorSign guifg=Red guibg=#0D3C48
-hi SyntasticStyleWarningSign guifg=Yellow guibg=#0D3C48
+hi SyntasticErrorSign guifg=Red guibg=#073642
+hi SyntasticWarningSign guifg=Yellow guibg=#073642
+hi SyntasticStyleErrorSign guifg=Red guibg=#073642
+hi SyntasticStyleWarningSign guifg=Yellow guibg=#073642
 
 
+" map <F8> for Tagbar
+nmap <F8> :TagbarToggle<CR>
 
-
-
-
+" map for change from windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 
 
@@ -111,3 +117,4 @@ if has('gui_running')
 endif
 
 "End dein Scripts-------------------------
+
