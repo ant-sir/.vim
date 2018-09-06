@@ -32,7 +32,8 @@ set display+=lastline
 " use pipe
 set noshelltemp
 
-"set autoread
+set autoread
+
 set backspace=indent,eol,start
 
 if !has('gui_running')
@@ -140,7 +141,9 @@ if executable('gtags')
 endif
 
 if executable('ag')
-  let g:ackprg = 'ag! --vimgrep'
+  let g:ackprg = 'ag --vimgrep'
+  command! -nargs=+ Ag :call Search("<args>")
+  cnoreabbrev ag Ag
 endif
 
 nmap <C-f>$ :call StripTrailingWhitespace()<CR>
@@ -165,6 +168,17 @@ autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \  exe 'normal! g`"zvzz' |
   \ endif
+
+function! Search(string) abort
+  let saved_shellpipe = &shellpipe
+  let &shellpipe = '>'
+  try
+    execute 'Ack!' shellescape(a:string, 1)
+  finally
+    let &shellpipe = saved_shellpipe
+  endtry
+endfunction
+
 
 if has('gui_running')
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12:cANSI
