@@ -131,12 +131,12 @@ inoremap <C-l> <right>
 nmap <leader><cr> :noh<cr>
 
 " find current word in quickfix
-nnoremap <C-f>w :execute "vimgrep ".expand("<cword>")." %"<cr>:copen<cr>
+nnoremap <C-f>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
 " find last search in quickfix
 nnoremap <C-f>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
 
 if executable('gtags')
-    nmap <leader><leader>f :GtagsCursor<CR>
+    nmap <leader><leader>d :GtagsCursor<CR>
     nmap <F5> :GtagsUpdate<CR>
 endif
 
@@ -144,6 +144,7 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
   command! -nargs=+ Ag :call Search("<args>")
   cnoreabbrev ag Ag
+  nmap <leader><leader>s :call Search("<cword>")<CR>
 endif
 
 nmap <C-f>$ :call StripTrailingWhitespace()<CR>
