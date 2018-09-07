@@ -41,7 +41,10 @@ if !has('gui_running')
 endif
 
 if has('win32') || has('win64')
-    set runtimepath+=~/.vim
+  set runtimepath+=~/.vim
+  set wildignore+=*\\.git\\*,*\\.hg\\*,*\\.svn\\*,*\\*.si4project\\*
+else
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/*.si4project/*
 endif
 
 " enable cursorline
@@ -49,10 +52,6 @@ set cursorline
 
 " for ☆
 " set ambiwidth=double
-
-" for vim-airline
-let laststatus = 2
-let g:airline_powerline_fonts = 1
 
 call plug#begin('~/.vim/plugged')
 
@@ -105,6 +104,14 @@ endif
 
 autocmd BufEnter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
 
+" for ctrlp do not clear cache on exit
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_files = 0
+
+" for vim-airline
+let g:airline_powerline_fonts = 1
+
+
 " for nerdtree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
@@ -136,19 +143,19 @@ inoremap <C-l> <right>
 nmap <leader><cr> :noh<cr>
 
 " find current word in quickfix
-nnoremap <C-f>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
+nnoremap <C-g>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
 " find last search in quickfix
-nnoremap <C-f>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
+nnoremap <C-g>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
   command! -nargs=+ Ag :call SearchForAg("<args>")
   cnoreabbrev ag Ag
-  nmap <C-f>f :call SearchForAg("<cword>")<CR>
-  nmap <C-f>s :call SearchVisualSelection()<CR>
+  nmap <C-g>f :call SearchForAg("<cword>")<CR>
+  nmap <C-g>s :call SearchVisualSelection()<CR>
 endif
 
-nmap <C-f>$ :call StripTrailingWhitespace()<CR>
+nmap <C-g>$ :call StripTrailingWhitespace()<CR>
 
 let g:quickfix_open_flag = 0
 nmap <F2> :call QuickFixToggle()<CR>
