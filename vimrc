@@ -1,191 +1,168 @@
 " vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
 
+" ##########################文件编码设置##########################
+" 编码
+" encoding:vim内部使用的编码
+" termencoding终端使用的编码(一般与encoding相同)
+" fileencoding:当前文件编码(不在此处设置,vim会自动设置)
+" fileencodings:可选的文件编码
+"     utf-8不能放到usc-bom之前,latin1应为最后,default是encoding的值
 set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
+
+" ##########################常用基本设置##########################
+" 行号
 set number
+
 set smarttab cindent
+
+" tab宽度
 let &tabstop=4
 let &softtabstop=4
 let &shiftwidth=4
+
+" 搜索
 set hlsearch ignorecase smartcase incsearch
+
+" 开启list模式
+" 在list模式可以显式显示tab，行尾结束符，空格等
+" 使用listchars自定义显示格式
 set list
 set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+
+" 启用缩进
+" 在insert模式，使用CTRL-T/CTRL-D可以增加/减少缩进
 set shiftround
+
+" 启用折行
 set linebreak
 let &showbreak='↪ '
 
+" 显示匹配的括号
 set showmatch
+
+" 在状态行显示命令
 set showcmd
 
+" 确认对话框
+" 多用于退出时文件已修改但未保存时询问,询问选项有:
+" 保存,不保存,取消
+" confirm
+set cf
+
+" 不使用折叠
 set nofoldenable
 
+" 不执行命令时不重画窗口，防止屏
 set lazyredraw
 
-set scrolloff=5
-set sidescrolloff=7
-set sidescroll=1
+" 光标上下最少保留行数
+" 比如当向下移动光标时,光标不会移动到当前编辑区最低部
+" 才开始滚动编辑区,这样能保证看到部分连续的上下文
+set scrolloff=7
 
+" 同上,但对横向滚动起作用,且只有设置了nowrap(下面)的时候才起作用
+"set sidescrolloff=7
+"set sidescroll=1
+
+" 滚动时，如果只剩最后一行，就一并显示
 set display+=lastline
 
 " use pipe
 set noshelltemp
 
+" 自动重新读入
+" 如果vim发现文件在其他地方被修改了,自动重新读入
 set autoread
 
 set backspace=indent,eol,start
 
-if !has('gui_running')
-  set t_Co=256
-endif
+set t_Co=256
 
+" for win
 if has('win32') || has('win64')
+  " windows默认不使用用户目录下的.vim目录，需添加到runtimepath中
   set runtimepath+=~/.vim
+  " CTRL-P插件使用wildignore中的内容忽略一些文件
   set wildignore+=*\\.git\\*,*\\.hg\\*,*\\.svn\\*,*\\*.si4project\\*
 else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/*.si4project/*
 endif
 
-" enable cursorline
-set cursorline
-
-" for ☆
-" set ambiwidth=double
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'altercation/vim-colors-solarized'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
-if has('unix')
-  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
-endif
-Plug 'w0rp/ale'
-Plug 'airblade/vim-gitgutter'
-Plug 'kien/ctrlp.vim'
-Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] }
-Plug 'valloric/youcompleteme'
-Plug 'scrooloose/nerdcommenter'
-if executable('ag')
-  Plug 'mileszs/ack.vim'
-endif
-
-call plug#end()
-
-let mapleader = ","
-let g:mapleader = ","
-
 if has('gui_running')
-  "set background=light
-  set background=dark
-else
-  set background=dark
-endif
-
-colorscheme solarized
-
-if has('gui_running')
+  " gui选项
+  " guioptions
+  " m 菜单栏
+  " g 灰色菜单项
+  " t 可撕下的菜单
+  " T 工具栏
+  " r 右边滚动条总是存在
+  " R 右边滚动条有垂直分割的窗口时总是存在
+  " l 左边滚动条总是存在
+  " L 左边滚动条有垂直分割的窗口时总是存在
+  " b 底部的水平滚动条,大小为当前文件中的最长行
+  " h 限制水平滚动条的长度为当前光标所在行,可减少计算量
+  " 每个选项都可以使用加号"+"和减号"-"来开关
   set guioptions-=m  "remove menu bar
   set guioptions-=T  "remove toolbar
   set guioptions-=r  "remove right-hand scroll bar
   set guioptions-=L  "remove left-hand scroll bar
-
+  " 设置字体
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12:cANSI
 endif
 
-"sync with OS clipboard
+" sync with OS clipboard
 if exists('$TMUX')
     set clipboard=
   else
     set clipboard=unnamed
 endif
 
-autocmd BufEnter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
+" 高亮显示光标所在行
+set cursorline
 
-" for ctrlp do not clear cache on exit
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0
-
-" for vim-airline
-let g:airline_powerline_fonts = 1
+" for ☆
+" set ambiwidth=double
 
 
-" for nerdtree
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
+" ##########################按键映射设置##########################
+" map:全局的映射,映射之后的按键可以递归(被再次映射)
+" noremap:全局的映射,但映射后的按键不可递归(多用于定义一个命令)
+" unmap:删除一个映射
+" mapclear:删除所有映射
+" 映射也区分模式,如果上述命令前有如下字符,则该命令只对该模式生效:
+" n:normal(正常)模式下
+" v:可视模式
+" i:插入模式
+" c:命令行模式
 
+let mapleader = ","
+let g:mapleader = ","
 
-" How can I open NERDTree automatically when vim starts up on opening a directory?
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+nmap <F2> :exec 'copen'<cr>
+nmap <F3> :exec 'cclose'<cr>
 
-
-" go back to previous position of cursor if any
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \  exe 'normal! g`"zvzz' |
-  \ endif
-
-" map for change from windows
+" 结合CTRL键在窗口间切换
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" insert模式下结合CTRL键移动光标
 inoremap <C-h> <left>
 inoremap <C-k> <up>
 inoremap <C-j> <down>
 inoremap <C-l> <right>
 
-" cancel search hight
-nmap <leader><cr> :noh<cr>
+" 使用<leader><ENTRY>取消搜索产生的高亮
+nmap <leader><leader><cr> :noh<cr>
 
-" find current word in quickfix
-nnoremap <C-g>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
-" find last search in quickfix
-nnoremap <C-g>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-  command! -nargs=+ Ag :call SearchForAg("<args>")
-  cnoreabbrev ag Ag
-  nmap <C-g>f :call SearchForAg("<cword>")<CR>
-  nmap <C-g>s :call SearchVisualSelection()<CR>
-endif
-
-nmap <C-g>$ :call StripTrailingWhitespace()<CR>
-
-let g:quickfix_open_flag = 0
-nmap <F2> :call QuickFixToggle()<CR>
-
-
-if executable('gtags')
-  let g:Gtags_No_Auto_Jump = 1
-  nmap <leader><leader>f :GtagsCursor<CR>
-  nmap <leader><leader>d :call GtagsGoToDefine("<cword>")<CR>
-  nmap <leader><leader>r :execute 'Gtags -r '.expand("<cword>")<CR>
-  nmap <F12> :GtagsUpdate<CR>
-endif
-
-" How can I map a specific key or shortcut to open NERDTree?
-map <F8> :NERDTreeToggle<CR>
-map <C-F8> :NERDTreeCWD<CR>
-
-" map <F9> for Tagbar
-let g:tagbarflag = 0
-nnoremap <silent> <F9> :call TagbarToggleFunc()<CR>
-
-function! QuickFixToggle() abort
-  if g:quickfix_open_flag == 0
-    let g:quickfix_open_flag = 1
-    execute 'copen'
-  else
-    let g:quickfix_open_flag = 0
-    execute 'cclose'
-  endif
-endfunction
+" 查找当前光标所在的word
+nnoremap <leader><leader>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
+" 重新查找上一次搜索过的字符
+nnoremap <leader><leader>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
 
 function! Preserve(command) "{{{
   " preparation: save last search, and cursor position.
@@ -202,74 +179,198 @@ endfunction "}}}
 function! StripTrailingWhitespace() "{{{
   call Preserve("%s/\\s\\+$//e")
 endfunction "}}}
+" 清除行尾无效的空白
+nmap <leader><leader>$ :call StripTrailingWhitespace()<CR>
 
-function! SearchForAg(string) abort
-  let saved_shellpipe = &shellpipe
-  let &shellpipe = '>'
-  try
-    execute 'Ack!' shellescape(a:string, 1)
-  finally
-    let &shellpipe = saved_shellpipe
-  endtry
-endfunction
 
-function! TagbarToggleFunc() abort
-  if g:tagbarflag == 0
-    execute 'TagbarOpen fj'
-    let g:tagbarflag = 1
-  else
-    let g:tagbarflag = 0
-    execute 'TagbarToggle'
-  endif
-endfunction
+"###########################安装/加载插件##########################
+" 使用vim-plug插件管理器
+" vim-plug的简要使用方法:
+" 命令:
+" :PlugInstall  安装列表中的插件
+" :PlugUpdate   安装/升级列表中的插件
+" :PlugUpgrade 	更新vim-plug这个插件管理器
+" :PlugStatus 	查看插件状态
+" :PlugClean    删除一些未使用的插件,删除前会询问
+" 安装或加载插件时的一些选项:
+" do 	  当安装/更新插件后的回调命令:系统命令或定义的一个方法
+"   例:Plug '插件', { 'do': './install.py' }
+"   例:Plug '插件', { 'do': function('自定义方法名') }
+" on 	  当在vim中执行某个命令时才加载这个插件
+"   例:Plug '插件', { 'on': '命令' }
+"   例:Plug '插件', { 'on': ['命令1', '命令2'] }
+" for 	  当打开某个类型的文件时才加载这个插件
+"   例:Plug '插件', { 'for': '文件类型' }
+"   例:Plug '插件', { 'for': ['文件类型1','文件类型2'] }
+" 也可以同时使用上述另个选项:
+"   例:Plug '插件',  { 'on': '命令', 'for': '文件类型' }
 
-function! GetVisualSelection() abort
-  let [lineSelection, colSelection] = getpos('v')[1:2]
-  let [lineCursor, colCursor] = getpos('.')[1:2]
+" 开始插件加载,括号中的是插件的安装和加载目录
+" 每个插件下面的是对这个插件的设置
+call plug#begin('~/.vim/plugged')
 
-  " Swap line numbers if selection starts at cursor
-  let [lineStart, lineEnd] = (lineSelection <= lineCursor) ? [lineSelection, lineCursor] : [lineCursor, lineSelection]
+" ########
+Plug 'altercation/vim-colors-solarized'
 
-  let lines = getline(lineStart, lineEnd)
+" ########
+Plug 'tpope/vim-fugitive'
 
-  let mode = mode()
-  if mode is# "\<C-v>"
-    let mode = 'v'
-    if lineStart < lineEnd
-      echoerr 'block-wise selection unsupported, assuming character-wise selection'
+" ########
+Plug 'vim-airline/vim-airline' "{{{
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#branch#enabled = 1
+"}}}
+
+" ########
+Plug 'vim-airline/vim-airline-themes'
+
+" ########
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] } "{{{
+  let g:NERDTreeDirArrowExpandable = '▸'
+  let g:NERDTreeDirArrowCollapsible = '▾'
+  map <F8> :NERDTreeToggle<CR>
+  map <C-F8> :NERDTreeCWD<CR>
+  " How can I open NERDTree automatically when vim starts up on opening a directory?
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter *
+    \ if argc() == 1 &&
+      \ isdirectory(argv()[0]) &&
+      \ !exists("s:std_in") |
+      \ exe 'NERDTree' argv()[0] |
+      \ wincmd p |
+      \ ene |
+    \ endif
+"}}}
+
+" ########
+if has('unix')
+  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
+endif
+
+" ########
+Plug 'w0rp/ale'
+
+" ########
+Plug 'airblade/vim-gitgutter'
+
+" ########
+Plug 'kien/ctrlp.vim' "{{{
+  let g:ctrlp_clear_cache_on_exit = 0
+  let g:ctrlp_max_files = 0
+"}}}
+
+" ########
+Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] } "{{{
+  let g:tagbarflag = 0
+  function! TagbarToggleFunc() abort
+    if g:tagbarflag == 0
+      execute 'TagbarOpen fj'
+      let g:tagbarflag = 1
+    else
+      let g:tagbarflag = 0
+      execute 'TagbarToggle'
     endif
-  endif
-  if mode is# 'v'
-    " Swap column numbers if selection starts at cursor
-    let [colStart, colEnd] = (colSelection <= colCursor) ? [colSelection, colCursor] : [colCursor, colSelection]
-    let lines[-1] = lines[-1][:colEnd - (&selection is# 'inclusive' ? 1 : 2)]
-    let lines[0]  = lines[0][colStart - 1:]
-  endif
-  " if mode is# 'V'
+  endfunction
+  nnoremap <silent> <F9> :call TagbarToggleFunc()<CR>
+"}}}
 
-  if &l:fileformat is# 'dos'
-    let ending = "\<CR>\<NL>"
-  elseif &l:fileformat is# 'mac'
-    let ending = "\<CR>"
-  else " if is# 'unix'
-    let ending = "\<NL>"
-  endif
+" ########
+Plug 'valloric/youcompleteme' "{{{
+  let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
+"}}}
 
-  return join(lines, ending)
-endfunction
+" ########
+Plug 'scrooloose/nerdcommenter'
 
-function! SearchVisualSelection() abort
-  let l:result = GetVisualSelection()
-  call SearchForAg(l:result)
-endfunction
+" ########
+if executable('ag')
+  Plug 'mileszs/ack.vim', {'on': ['Ack']} "{{{
+    let g:ackprg = 'ag --vimgrep'
 
-function! GtagsGoToDefine(string) abort
-  let l:tmp_gtags_single_status = g:Gtags_Close_When_Single
-  let l:tmp_gtags_auto_jump_status = g:Gtags_No_Auto_Jump
-  let g:Gtags_Close_When_Single = 1
-  let g:Gtags_No_Auto_Jump = 0
-  execute 'Gtags -d '.expand("<cword>")
-  let g:Gtags_Close_When_Single = l:tmp_gtags_single_status
-  let g:Gtags_No_Auto_Jump = l:tmp_gtags_auto_jump_status
-endfunction
+    " 使用函数以防止Ag打印输出到终端上
+    function! SearchForAg(string) abort
+      let saved_shellpipe = &shellpipe
+      let &shellpipe = '>'
+      try
+        execute 'Ack!' shellescape(a:string, 1)
+      finally
+        let &shellpipe = saved_shellpipe
+      endtry
+    endfunction
+
+    command! -nargs=+ Ag :call SearchForAg("<args>")
+    cnoreabbrev ag Ag
+    nmap <leader><leader>s :execute "Ag ".expand("<cword>")<CR>
+
+    function! GetVisualSelection() abort
+      " Why is this not a built-in Vim script function?!
+      let [line_start, column_start] = getpos("'<")[1:2]
+      let [line_end, column_end] = getpos("'>")[1:2]
+      let lines = getline(line_start, line_end)
+      if len(lines) == 0
+        return ''
+      endif
+      let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+      let lines[0] = lines[0][column_start - 1:]
+
+      if &l:fileformat is# 'dos'
+        let ending = "\<CR>\<NL>"
+      elseif &l:fileformat is# 'mac'
+        let ending = "\<CR>"
+      else " if is# 'unix'
+        let ending = "\<NL>"
+      endif
+
+      return join(lines, ending)
+    endfunction
+
+    function! SearchVisualSelection() abort
+      let l:result = GetVisualSelection()
+      call SearchForAg(l:result)
+    endfunction
+    vnoremap <leader><leader>v :call SearchVisualSelection()<CR>
+  "}}}
+endif
+
+" ########
+if executable('gtags')
+  let g:Gtags_No_Auto_Jump = 1
+  function! GtagsGoToDefine(string) abort
+    let l:tmp_gtags_single_status = g:Gtags_Close_When_Single
+    let l:tmp_gtags_auto_jump_status = g:Gtags_No_Auto_Jump
+    let g:Gtags_Close_When_Single = 1
+    let g:Gtags_No_Auto_Jump = 0
+    execute 'Gtags -d '.expand(a:string)
+    let g:Gtags_Close_When_Single = l:tmp_gtags_single_status
+    let g:Gtags_No_Auto_Jump = l:tmp_gtags_auto_jump_status
+  endfunction
+  nmap <leader><leader>f :GtagsCursor<CR>
+  nmap <leader><leader>d :call GtagsGoToDefine("<cword>")<CR>
+  nmap <leader><leader>r :execute 'Gtags -r '.expand("<cword>")<CR>
+  nmap <F12> :GtagsUpdate<CR>
+endif
+
+call plug#end()
+
+
+" ##########################背景主题设置##########################
+" 似乎必须放在插件的后面
+
+set background=dark
+colorscheme solarized
+
+
+" ##########################hook函数调用##########################
+" 当最后一个buffer关闭时，就退出所有窗口
+autocmd BufEnter *
+  \ if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) |
+    \ qa! |
+  \ endif
+
+" 让光标回到上次离开时的位置
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ exe 'normal! g`"zvzz' |
+  \ endif
+
 
