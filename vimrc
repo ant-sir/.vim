@@ -56,9 +56,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
 if has('unix')
-  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
 endif
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
@@ -112,6 +112,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " How can I map a specific key or shortcut to open NERDTree?
 map <F7> :NERDTreeToggle<CR>
+map <C-F7> :NERDTreeCWD<CR>
 
 " map <F8> for Tagbar
 nmap <F8> :TagbarToggle<CR>
