@@ -37,6 +37,10 @@ set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
 set shiftround
 
 " 启用折行
+" 用 ’nowrap’ 选项的一个弊端是你看不见你正在处理的整个句子。
+" 当 ’wrap’ 选项开启时,会从单词中间断开,从而难以阅读。
+" 一个好的解决方法是设置 ’linebreak’ 选项。
+" 这样,Vim 将会在一个适当的地方回绕行显示,同时仍保持文件中的文本不变。
 set linebreak
 let &showbreak='↪ '
 
@@ -55,8 +59,8 @@ set cf
 " 不使用折叠
 set nofoldenable
 
-" 不执行命令时不重画窗口，防止屏
-set lazyredraw
+" 不执行命令时不重画窗口，可以增加性能
+" set lazyredraw
 
 " 光标上下最少保留行数
 " 比如当向下移动光标时,光标不会移动到当前编辑区最低部
@@ -64,8 +68,8 @@ set lazyredraw
 set scrolloff=7
 
 " 同上,但对横向滚动起作用,且只有设置了nowrap(下面)的时候才起作用
-"set sidescrolloff=7
-"set sidescroll=1
+" set sidescrolloff=7
+" set sidescroll=1
 
 " 滚动时，如果只剩最后一行，就一并显示
 set display+=lastline
@@ -83,13 +87,17 @@ set t_Co=256
 
 " for win
 if has('win32') || has('win64')
-  " windows默认不使用用户目录下的.vim目录，需添加到runtimepath中
+  " windows默认加载用户目录下的vimfiles目录，为了使用用户目录下的.vim目录需添加到runtimepath中
   set runtimepath+=~/.vim
+
   " CTRL-P插件使用wildignore中的内容忽略一些文件
   set wildignore+=*\\.git\\*,*\\.hg\\*,*\\.svn\\*,*\\*.si4project\\*
 else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/*.si4project/*
 endif
+
+" 总在 Vim 窗口的右下角显示当前光标位置
+set ruler
 
 " 在状态栏显示补全项
 set wildmenu
@@ -116,7 +124,7 @@ if has('gui_running')
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12:cANSI
 endif
 
-" sync with OS clipboard
+" 如果使用TMUX
 if exists('$TMUX')
     set clipboard=
   else
