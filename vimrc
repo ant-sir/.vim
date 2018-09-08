@@ -91,6 +91,9 @@ else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/*.si4project/*
 endif
 
+" 在状态栏显示补全项
+set wildmenu
+
 if has('gui_running')
   " gui选项
   " guioptions
@@ -141,8 +144,15 @@ set cursorline
 let mapleader = ","
 let g:mapleader = ","
 
-nmap <F2> :exec 'copen'<cr>
-nmap <F3> :exec 'cclose'<cr>
+function! QuickFixToggle() abort
+  if len(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") == "qf"')) == 0
+    exec 'copen'
+  else
+    exec 'cclose'
+  endif
+endfunction
+
+nmap <F2> :call QuickFixToggle()<CR>
 
 " 结合CTRL键在窗口间切换
 nnoremap <C-h> <C-w>h
@@ -164,23 +174,8 @@ nnoremap <leader><leader>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen
 " 重新查找上一次搜索过的字符
 nnoremap <leader><leader>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
 
-function! Preserve(command) "{{{
-  " preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " do the business:
-  execute a:command
-  " clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
-endfunction "}}}
-
-function! StripTrailingWhitespace() "{{{
-  call Preserve("%s/\\s\\+$//e")
-endfunction "}}}
 " 清除行尾无效的空白
-nmap <leader><leader>$ :call StripTrailingWhitespace()<CR>
+nmap <leader><leader>$ :execute '%s/\s\+$//'<CR>
 
 
 "###########################安装/加载插件##########################
@@ -331,6 +326,9 @@ if executable('ag')
     vnoremap <leader><leader>v :call SearchVisualSelection()<CR>
   "}}}
 endif
+
+" ########
+Plug 'terryma/vim-multiple-cursors'
 
 " ########
 if executable('gtags')
