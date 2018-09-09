@@ -44,8 +44,9 @@ set shiftround
 set linebreak
 let &showbreak='↪ '
 
-" 显示匹配的括号
-set showmatch
+" 输入括号时，高亮匹配的括号
+" set showmatch
+" set matchtime=1
 
 " 在状态行显示命令
 set showcmd
@@ -280,6 +281,7 @@ Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] } "{{{
 " ########
 Plug 'valloric/youcompleteme' "{{{
   let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
+  let g:ycm_collect_identifiers_from_tag_files = 1
 "}}}
 
 " ########
