@@ -43,6 +43,10 @@ set shiftround
 " 这样,Vim 将会在一个适当的地方回绕行显示,同时仍保持文件中的文本不变。
 set linebreak
 let &showbreak='↪ '
+" 折行时保持缩进，VIM 8.0新特性
+if v:version > 800
+  set breakindent
+endif
 
 " 输入括号时，高亮匹配的括号
 " set showmatch
@@ -138,6 +142,8 @@ set cursorline
 " for ☆
 " set ambiwidth=double
 
+" ctrl-]输出到quickfix，但ctrl-T无效了
+set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
 " ##########################按键映射设置##########################
 " map:全局的映射,映射之后的按键可以递归(被再次映射)
@@ -282,6 +288,10 @@ Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] } "{{{
 Plug 'valloric/youcompleteme' "{{{
   let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
   let g:ycm_collect_identifiers_from_tag_files = 1
+  " 默认需要ctrl-sapce才能触发语义补全
+  " let g:ycm_semantic_triggers =  {
+  "   \ 'c,cpp': ['re!\w{2}'],
+  "   \ }
 "}}}
 
 " ########
@@ -356,6 +366,33 @@ if executable('gtags')
   nmap <leader><leader>d :call GtagsGoToDefine("<cword>")<CR>
   nmap <leader><leader>r :execute 'Gtags -r '.expand("<cword>")<CR>
   nmap <F12> :GtagsUpdate<CR>
+endif
+
+" ########
+if executable('ctags') || executable('gtags')
+  Plug 'ludovicchabant/vim-gutentags' "{{{
+    " gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
+    let g:gutentags_project_root = ['.repo', '.svn', '.git', '.hg', '.project']
+    " 所生成的数据文件的名称
+    let g:gutentags_ctags_tagfile = '.tags'
+    " 同时开启 ctags 和 gtags 支持：
+    let g:gutentags_modules = []
+    if executable('ctags')
+      let g:gutentags_modules += ['ctags']
+      let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+      let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+      let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+      if has('win32') || has('win64')
+        " 如果使用 universal ctags 需要增加下面一行，UNIX上默认安装的是Exuberant Ctags
+        " let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+      endif
+    endif
+    if executable('gtags') && executable('gtags-cscope')
+      let g:gutentags_modules += ['gtags_cscope']
+    endif
+    " 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+    let g:gutentags_cache_dir = expand('~/.cache/tags')
+  "}}}
 endif
 
 call plug#end()
