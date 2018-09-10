@@ -90,6 +90,10 @@ set backspace=indent,eol,start
 
 set t_Co=256
 
+" 在状态栏显示补全项
+set wildmenu
+set wildignore+=*.o,*~,*.pyc
+
 " for win
 if has('win32') || has('win64')
   " windows默认加载用户目录下的vimfiles目录，为了使用用户目录下的.vim目录需添加到runtimepath中
@@ -103,9 +107,6 @@ endif
 
 " 总在 Vim 窗口的右下角显示当前光标位置
 set ruler
-
-" 在状态栏显示补全项
-set wildmenu
 
 if has('gui_running')
   " gui选项
