@@ -234,7 +234,7 @@ Plug 'vim-airline/vim-airline' "{{{
 Plug 'vim-airline/vim-airline-themes'
 
 " ########
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] } "{{{
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTree'] } "{{{
   let g:NERDTreeDirArrowExpandable = '▸'
   let g:NERDTreeDirArrowCollapsible = '▾'
   map <F8> :NERDTreeToggle<CR>
