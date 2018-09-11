@@ -252,11 +252,6 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTree'
 "}}}
 
 " ########
-if has('unix')
-  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
-endif
-
-" ########
 Plug 'w0rp/ale'
 
 " ########
@@ -298,22 +293,12 @@ Plug 'scrooloose/nerdcommenter'
 
 " ########
 if executable('ag')
-  Plug 'mileszs/ack.vim', {'on': ['Ack']} "{{{
-    let g:ackprg = 'ag --vimgrep'
+  Plug 'rking/ag.vim', {'on': ['Ag']} "{{{
+    let g:ag_prg="ag --vimgrep --smart-case"
+    let g:ag_highlight=1
 
-    " 使用函数以防止Ag打印输出到终端上
-    function! SearchForAg(string) abort
-      let saved_shellpipe = &shellpipe
-      let &shellpipe = '>'
-      try
-        execute 'Ack!' shellescape(a:string, 1)
-      finally
-        let &shellpipe = saved_shellpipe
-      endtry
-    endfunction
-
-    command! -nargs=+ Ag :call SearchForAg("<args>")
     cnoreabbrev ag Ag
+
     nmap <leader><leader>s :execute "Ag ".expand("<cword>")<CR>
 
     function! GetVisualSelection() abort
@@ -327,22 +312,10 @@ if executable('ag')
       let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
       let lines[0] = lines[0][column_start - 1:]
 
-      if &l:fileformat is# 'dos'
-        let ending = "\<CR>\<NL>"
-      elseif &l:fileformat is# 'mac'
-        let ending = "\<CR>"
-      else " if is# 'unix'
-        let ending = "\<NL>"
-      endif
-
       return join(lines, ending)
     endfunction
 
-    function! SearchVisualSelection() abort
-      let l:result = GetVisualSelection()
-      call SearchForAg(l:result)
-    endfunction
-    vnoremap <leader><leader>v :call SearchVisualSelection()<CR>
+    vnoremap <leader><leader>v :execute "Ag '".GetVisualSelection()."'"<CR>
   "}}}
 endif
 
