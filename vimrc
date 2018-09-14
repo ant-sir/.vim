@@ -312,10 +312,15 @@ if executable('ag')
       let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
       let lines[0] = lines[0][column_start - 1:]
 
-      return join(lines, ending)
+      return join(lines, "\n")
     endfunction
 
-    vnoremap <leader><leader>v :execute "Ag '".GetVisualSelection()."'"<CR>
+    function! SearchVIsualSelection() abort
+      let l:result = GetVisualSelection()
+      execute 'Ag "'.l:result.'"'
+    endfunction
+
+    vnoremap <leader><leader>v :call SearchVIsualSelection()<CR>
   "}}}
 endif
 
