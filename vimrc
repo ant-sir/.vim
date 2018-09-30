@@ -189,7 +189,7 @@ nnoremap <leader><leader>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen
 nnoremap <leader><leader>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
 
 " 清除行尾无效的空白
-nmap <leader><leader>$ :execute '%s/\s\+$//'<CR>
+nmap <leader><leader>$ :execute '%s/\s\+$//g'<CR>
 
 
 "###########################安装/加载插件##########################
