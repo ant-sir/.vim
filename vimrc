@@ -344,7 +344,9 @@ if executable('gtags')
   nmap <leader><leader>r :execute 'Gtags -r '.expand("<cword>")<CR>
   nmap <F12> :GtagsUpdate<CR>
 endif
-      
+
+" ########
+Plug 'vim-scripts/Mark--Karkat'
 
 call plug#end()
 
