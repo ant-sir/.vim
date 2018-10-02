@@ -19,7 +19,7 @@ echo 'gtk-application-prefer-dark-theme = true' >> $HOME/.config/gtk-3.0/setting
 echo "PS1='[\[\033[32;32m\]\u@\h\[\033[00m\]:\[\033[34;34m\]\w\[\033[00m\]]\$ '" >> $HOME/.bashrc
 
 sudo dnf update -y
-sudo dnf install gcc-c++ cmake clang clang-libs clang-devel python3-devel shadowsocks-libev wireshark qt5 qt-creator qt5-designer qt5-qtbase-doc qt5-qtbase-examples qt-creator-translations autoconf automake bison byacc libtool flex ltrace oprofile strace valgrind indent ccache ibus-table-chinese-wubi-jidian -y
+sudo dnf install gcc-c++ cmake clang clang-libs clang-devel python3-devel shadowsocks-libev wireshark qt5 qt-creator qt5-designer qt5-qtbase-doc qt5-qtbase-examples qt-creator-translations autoconf automake bison byacc libtool flex ltrace oprofile strace valgrind indent ccache ibus-table-chinese-wubi-jidian python3-qt5 python3-lxml -y
 
 sudo usermod -a -G wireshark $USER
 
