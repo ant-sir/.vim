@@ -92,7 +92,7 @@ set t_Co=256
 
 " 在状态栏显示补全项
 set wildmenu
-set wildignore+=*.o,*~,*.pyc
+set wildignore+=*.o,*~,*.pyc,*.ko,*.a,*.lib,*.so,*.exe,*.bin
 
 " for win
 if has('win32') || has('win64')
