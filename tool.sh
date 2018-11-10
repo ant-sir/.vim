@@ -25,3 +25,16 @@ sudo usermod -a -G wireshark $USER
 
 sudo dnf install vim ctags global the_silver_searcher powerline-fonts -y
 
+# for /etc/default/grub
+#GRUB_TIMEOUT=5
+#GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+#GRUB_DEFAULT=saved
+#GRUB_DISABLE_SUBMENU=true
+##GRUB_TERMINAL_OUTPUT="console"
+#GRUB_CMDLINE_LINUX="resume=/dev/mapper/fedora_localhost--live-swap rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet"
+#GRUB_DISABLE_RECOVERY="true"
+#GRUB_BACKGROUND="/boot/grub2/themes/system/background.png"
+
+# for /etc/grub.d/40_custom
+#set color_highlight=green/black
+
