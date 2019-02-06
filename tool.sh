@@ -23,7 +23,7 @@ export LANG=zh_CN
 xdg-user-dirs-gtk-update
 
 #{
-#    "server":"13.115.145.175",
+#    "server":"52.192.82.68",
 #    "server_port":443,
 #    "local_port":1080,
 #    "password":"zyl198879",
