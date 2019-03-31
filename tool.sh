@@ -21,12 +21,3 @@ export LANG=en
 xdg-user-dirs-gtk-update
 export LANG=zh_CN
 xdg-user-dirs-gtk-update
-
-#{
-#    "server":"52.192.82.68",
-#    "server_port":443,
-#    "local_port":1080,
-#    "password":"zyl198879",
-#    "timeout":60,
-#    "method":"aes-256-cfb"
-#}
