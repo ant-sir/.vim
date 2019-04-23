@@ -219,13 +219,13 @@ nmap <leader><leader>$ :execute '%s/\s\+$//g'<CR>
 call plug#begin('~/.vim/plugged')
 
 " ########
-Plug 'guns/xterm-color-table'
+Plug 'guns/xterm-color-table.vim'
 
 " ########
 Plug 'altercation/vim-colors-solarized'
 
 " ########
-Plug 'tpope/vim-fugitive'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " ########
 Plug 'vim-airline/vim-airline' "{{{
