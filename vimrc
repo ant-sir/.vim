@@ -31,7 +31,6 @@ set hlsearch ignorecase smartcase incsearch
 " 使用listchars自定义显示格式
 set list
 set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
-highlight SpecialKey ctermbg=NONE guibg=NONE
 
 " 启用缩进
 " 在insert模式，使用CTRL-T/CTRL-D可以增加/减少缩进
@@ -361,6 +360,8 @@ call plug#end()
 set background=dark
 colorscheme solarized
 
+" 设置list背景色，必须在背景色后面设置才有效
+highlight SpecialKey ctermbg=NONE guibg=NONE
 
 " ##########################hook函数调用##########################
 " 当最后一个buffer关闭时，就退出所有窗口
