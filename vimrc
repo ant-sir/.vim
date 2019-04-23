@@ -219,6 +219,9 @@ nmap <leader><leader>$ :execute '%s/\s\+$//g'<CR>
 call plug#begin('~/.vim/plugged')
 
 " ########
+Plug 'guns/xterm-color-table'
+
+" ########
 Plug 'altercation/vim-colors-solarized'
 
 " ########
