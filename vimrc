@@ -295,14 +295,13 @@ Plug 'valloric/youcompleteme' "{{{
 Plug 'scrooloose/nerdcommenter'
 
 " ########
-if executable('ag')
-  Plug 'rking/ag.vim', {'on': ['Ag']} "{{{
-    let g:ag_prg="ag --vimgrep --smart-case"
-    let g:ag_highlight=1
+if executable('rg')
+  Plug 'jremmen/vim-ripgrep', {'on': ['Rg']} "{{{
+    let g:rg_highlight=1
 
-    cnoreabbrev ag Ag
+    cnoreabbrev rg Rg
 
-    nmap <leader><leader>s :execute "Ag ".expand("<cword>")<CR>
+    nmap <leader><leader>s :execute "Rg ".expand("<cword>")<CR>
 
     function! GetVisualSelection() abort
       " Why is this not a built-in Vim script function?!
@@ -320,7 +319,7 @@ if executable('ag')
 
     function! SearchVIsualSelection() abort
       let l:result = GetVisualSelection()
-      execute 'Ag "'.l:result.'"'
+      execute 'Rg "'.l:result.'"'
     endfunction
 
     vnoremap <leader><leader>v :call SearchVIsualSelection()<CR>
