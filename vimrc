@@ -360,7 +360,8 @@ set background=dark
 colorscheme solarized
 
 " 设置list背景色，必须在背景色后面设置才有效
-highlight SpecialKey ctermbg=NONE guibg=NONE
+" highlight SpecialKey ctermbg=NONE guibg=NONE
+highlight CursorLineNr cterm=NONE gui=NONE
 
 " ##########################hook函数调用##########################
 " 当最后一个buffer关闭时，就退出所有窗口
