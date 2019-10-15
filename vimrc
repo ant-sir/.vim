@@ -301,7 +301,7 @@ if executable('rg')
 
     cnoreabbrev rg Rg
 
-    nmap <leader><leader>s :execute "Rg ".expand("<cword>")<CR>
+    nmap <leader><leader>g :execute "Rg ".expand("<cword>")<CR>
 
     function! GetVisualSelection() abort
       " Why is this not a built-in Vim script function?!
