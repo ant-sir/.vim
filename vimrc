@@ -283,12 +283,14 @@ Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] } "{{{
 
 " ########
 Plug 'valloric/youcompleteme' "{{{
-  let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
+  " let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
   let g:ycm_collect_identifiers_from_tag_files = 1
   " 默认需要ctrl-sapce才能触发语义补全
   " let g:ycm_semantic_triggers =  {
   "   \ 'c,cpp': ['re!\w{2}'],
   "   \ }
+  nnoremap <F5> :YcmDiags<CR>
+  nnoremap <leader>d :YcmCompleter GoTo<CR>
 "}}}
 
 " ########
