@@ -65,7 +65,7 @@ set cf
 set nofoldenable
 
 " 不执行命令时不重画窗口，可以增加性能
-" set lazyredraw
+set lazyredraw
 
 " 光标上下最少保留行数
 " 比如当向下移动光标时,光标不会移动到当前编辑区最低部
@@ -73,8 +73,8 @@ set nofoldenable
 set scrolloff=7
 
 " 同上,但对横向滚动起作用,且只有设置了nowrap(下面)的时候才起作用
-" set sidescrolloff=7
-" set sidescroll=1
+set sidescrolloff=7
+set sidescroll=1
 
 " 滚动时，如果只剩最后一行，就一并显示
 set display+=lastline
@@ -362,7 +362,7 @@ set background=dark
 colorscheme solarized
 
 " 设置list背景色，必须在背景色后面设置才有效
-" highlight SpecialKey ctermbg=NONE guibg=NONE
+highlight SpecialKey ctermbg=NONE guibg=NONE
 highlight CursorLineNr cterm=NONE gui=NONE
 
 " ##########################hook函数调用##########################
@@ -374,7 +374,7 @@ autocmd BufEnter *
 
 " 让光标回到上次离开时的位置
 autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ if line("'\"") > 0 && line("ji'\"") <= line("$") |
     \ exe 'normal! g`"zvzz' |
   \ endif
 
