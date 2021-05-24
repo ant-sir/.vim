@@ -222,7 +222,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'guns/xterm-color-table.vim'
 
 " ########
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 
 " ########
 Plug 'nathanaelkane/vim-indent-guides'
@@ -283,8 +283,8 @@ Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] } "{{{
 
 " ########
 Plug 'valloric/youcompleteme' "{{{
-  let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
-  let g:ycm_collect_identifiers_from_tag_files = 1
+  " let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/youcompleteme/third_party/ycmd/examples/.ycm_extra_conf.py"
+  " let g:ycm_collect_identifiers_from_tag_files = 1
   " 默认需要ctrl-sapce才能触发语义补全
   " let g:ycm_semantic_triggers =  {
   "   \ 'c,cpp': ['re!\w{2}'],
@@ -359,11 +359,12 @@ call plug#end()
 " 似乎必须放在插件的后面
 
 set background=dark
-colorscheme solarized
+" colorscheme solarized
 
 " 设置list背景色，必须在背景色后面设置才有效
-highlight SpecialKey ctermbg=NONE guibg=NONE
-highlight CursorLineNr cterm=NONE gui=NONE
+highlight SignColumn ctermbg=234
+highlight CursorLine cterm=bold ctermbg=235
+highlight CursorLineNr cterm=bold ctermbg=235
 
 " ##########################hook函数调用##########################
 " 当最后一个buffer关闭时，就退出所有窗口
