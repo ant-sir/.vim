@@ -86,6 +86,7 @@ set noshelltemp
 " 如果vim发现文件在其他地方被修改了,自动重新读入
 set autoread
 
+set nocompatible
 set backspace=indent,eol,start
 
 set t_Co=256
@@ -184,9 +185,9 @@ inoremap <C-l> <right>
 nmap <leader><leader><cr> :noh<cr>
 
 " 查找当前光标所在的word
-nnoremap <leader><leader>w :execute "vimgrep! ".expand("<cword>")." %"<cr>:copen<cr>
+nnoremap <leader><leader>w :execute "vimgrep! /".expand("<cword>")."/j %"<cr>:copen<cr>
 " 重新查找上一次搜索过的字符
-nnoremap <leader><leader>l :execute 'vimgrep! /'.@/.'/g %'<cr>:copen<cr>
+nnoremap <leader><leader>l :execute 'vimgrep! /'.@/.'/gj %'<cr>:copen<cr>
 
 " 清除行尾无效的空白
 nmap <leader><leader>$ :execute '%s/\s\+$//g'<CR>
@@ -351,6 +352,7 @@ endif
 
 " ########
 Plug 'vim-scripts/Mark--Karkat'
+  nmap <leader><leader>n :MarkClear<CR>
 
 call plug#end()
 
